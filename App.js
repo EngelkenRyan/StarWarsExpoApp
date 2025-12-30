@@ -1,5 +1,5 @@
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -35,6 +35,7 @@ function MainTabs() {
         headerShown: true,
         drawerActiveTintColor: "red",
         drawerInactiveTintColor: "gray",
+        sceneContainerStyle: { backgroundColor: "#000" },
       }}
     >
       <Drawer.Screen name="Films" component={Films} />
@@ -45,23 +46,41 @@ function MainTabs() {
 }
 
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: true }}>
-        {/* Main app tabs */}
-        <Stack.Screen
-          name="Main"
-          component={MainTabs}
-          options={{ headerShown: false }}
-        />
+  // Phone-like width on web so it doesn't look stretched on desktop
+  const webPhoneWidth = 390;
 
-        {/* Planets Detail */}
-        <Stack.Screen
-          name="PlanetDetail"
-          component={PlanetDetail}
-          options={{ title: "Planet Detail", headerTintColor: "red" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+  return (
+    <View style={{ flex: 1, backgroundColor: "#000", alignItems: "center" }}>
+      <View
+        style={{
+          flex: 1,
+          width: Platform.OS === "web" ? webPhoneWidth : "100%",
+          maxWidth: "100%",
+        }}
+      >
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: true,
+              contentStyle: { backgroundColor: "#000" }, // keeps stack screens black
+            }}
+          >
+            {/* Main app tabs/drawer */}
+            <Stack.Screen
+              name="Main"
+              component={MainTabs}
+              options={{ headerShown: false }}
+            />
+
+            {/* Planet Detail */}
+            <Stack.Screen
+              name="PlanetDetail"
+              component={PlanetDetail}
+              options={{ title: "Planet Detail", headerTintColor: "red" }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    </View>
   );
 }
