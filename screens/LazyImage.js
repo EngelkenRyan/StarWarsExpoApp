@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Image, StyleSheet } from "react-native";
 
-const placeholder = require("../assets/snack-icon.png");
+const placeholder = require("../assets/icon.png");
 
 export default function LazyImage({ source, style }) {
   const [loaded, setLoaded] = useState(false);
